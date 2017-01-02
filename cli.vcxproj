@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>cli</ProjectName>
+    <RootNamespace>cli</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectGuid>{AE0F037E-6A9B-47C5-B930-6CD88C80E31C}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <Import Project="$(SolutionDir)msvc_common.props" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <Import Project="$(SolutionDir)msvc_common.props" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>BE_CLI_IMPL;BE_PCH_BOOST_TYPE_ERASURE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>BE_CLI_IMPL;BE_PCH_BOOST_TYPE_ERASURE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\app_name.hpp" />
+    <ClInclude Include="include\cli.hpp" />
+    <ClInclude Include="include\cli_autolink.hpp" />
+    <ClInclude Include="include\default_option_parser.hpp" />
+    <ClInclude Include="include\describe_config.hpp" />
+    <ClInclude Include="include\doc_handler.hpp" />
+    <ClInclude Include="include\doc_handler_base.hpp" />
+    <ClInclude Include="include\exceptions.hpp" />
+    <ClInclude Include="include\exit_code_handler.hpp" />
+    <ClInclude Include="include\example_handler.hpp" />
+    <ClInclude Include="include\option_handler_base.hpp" />
+    <ClInclude Include="include\flag.hpp" />
+    <ClInclude Include="include\handler.hpp" />
+    <ClInclude Include="include\handler_base.hpp" />
+    <ClInclude Include="include\handler_context.hpp" />
+    <ClInclude Include="include\ids.hpp" />
+    <ClInclude Include="include\positional_handler.hpp" />
+    <ClInclude Include="include\section_ids.hpp" />
+    <ClInclude Include="include\option_parse_result.hpp" />
+    <ClInclude Include="include\param.hpp" />
+    <ClInclude Include="include\processor.hpp" />
+    <ClInclude Include="include\escape_cli_arg.hpp" />
+    <ClInclude Include="include\pch.hpp" />
+    <ClInclude Include="include\end_of_options.hpp" />
+    <ClInclude Include="include\synopsis_handler.hpp" />
+    <ClInclude Include="include\verbosity_param.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\app_name.cpp" />
+    <ClCompile Include="src\default_option_parser.cpp" />
+    <ClCompile Include="src\describe_config.cpp" />
+    <ClCompile Include="src\handler_context.cpp" />
+    <ClCompile Include="src\ids.cpp" />
+    <ClCompile Include="src\processor.cpp" />
+    <ClCompile Include="src\native\vc_win\escape_cli_arg.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\verbosity_param.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

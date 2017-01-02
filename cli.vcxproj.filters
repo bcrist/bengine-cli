@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\native">
+      <UniqueIdentifier>{ffbd3da3-0644-47e3-aab4-7d61a32ad027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\native\vc_win">
+      <UniqueIdentifier>{5478a051-f16c-4b0f-b0bc-f4676890b599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\handlers">
+      <UniqueIdentifier>{a659ce0e-e729-43f6-ba5f-c083723b87fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\handlers">
+      <UniqueIdentifier>{4aaad78f-3140-4900-aba7-0f6777561c08}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\pch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli_autolink.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\escape_cli_arg.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\default_option_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\describe_config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\handler_context.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\option_parse_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\processor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\section_ids.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ids.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\flag.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\param.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\verbosity_param.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\handler_base.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\option_handler_base.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\end_of_options.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\doc_handler.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\positional_handler.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\exceptions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\exit_code_handler.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\doc_handler_base.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\synopsis_handler.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\example_handler.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\app_name.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\native\vc_win\escape_cli_arg.cpp">
+      <Filter>Source Files\native\vc_win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\default_option_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\describe_config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler_context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\verbosity_param.cpp">
+      <Filter>Source Files\handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\app_name.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
