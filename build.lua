@@ -7,6 +7,9 @@ module 'cli' {
          'src/native/$(toolchain)/*.cpp',
       },
       pch_src 'src/pch.cpp',
-      define 'BE_CLI_IMPL'
+      define 'BE_CLI_IMPL',
+      link_project {
+         'core', 'util'
+      }
    }
 }
