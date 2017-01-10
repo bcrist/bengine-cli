@@ -8,8 +8,6 @@ module 'cli' {
       },
       pch_src 'src/pch.cpp',
       define 'BE_CLI_IMPL',
-      link_project {
-         'core', 'util'
-      }
+      link_project 'ctable'
    }
 }
