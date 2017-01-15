@@ -1,4 +1,4 @@
-/*!! include('ids', { symbol_prefix = 'CLI_DESCRIBE_SECTION_', value_prefix = 'be:cli:section:' }, {
+/*!! include('common/ids', { symbol_prefix = 'CLI_DESCRIBE_SECTION_', value_prefix = 'be:cli:section:' }, {
 
    'prologue','intro','synopsis','abstract','options:compact',{'OPTIONS_MANSTYLE','options:man-style'},
    'summary',{'EXITCODES','exit-codes'},'examples','conclusion','license','epilogue'
