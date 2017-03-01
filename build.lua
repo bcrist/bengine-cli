@@ -1,6 +1,5 @@
 module 'cli' {
    lib {
-      limp 'include/section_ids.hpp',
       src {
          'src/*.cpp',
          'src/native/*.cpp',

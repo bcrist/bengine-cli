@@ -4,7 +4,7 @@
    'summary',{'EXITCODES','exit-codes'},'examples','conclusion','license','epilogue'
    
 }) !! 80 */
-/* ######## !! GENERATED CODE -- DO NOT MODIFY !! ######## */
+/* ################# !! GENERATED CODE -- DO NOT MODIFY !! ################# */
 #pragma once
 #ifndef BE_CLI_SECTION_IDS_HPP_
 #define BE_CLI_SECTION_IDS_HPP_
@@ -82,4 +82,4 @@ const Id cli_describe_section_epilogue = Id(BEIDN_CLI_DESCRIBE_SECTION_EPILOGUE)
 
 #endif
 
-/* ################ END OF GENERATED CODE ################ */
+/* ######################### END OF GENERATED CODE ######################### */
