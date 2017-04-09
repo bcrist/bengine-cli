@@ -80,6 +80,7 @@
     <ClInclude Include="include\end_of_options.hpp" />
     <ClInclude Include="include\synopsis_handler.hpp" />
     <ClInclude Include="include\verbosity_param.hpp" />
+    <ClInclude Include="include\version.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app_name.cpp" />
