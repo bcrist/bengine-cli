@@ -21,47 +21,63 @@ public:
         long_options_(std::move(long_options)),
         throw_on_error_(true) { }
 
+   Derived& clear_desc() & {
+      description_ = ct::Cell();
+      return *static_cast<Derived*>(this);
+   }
+
+   Derived clear_desc() && {
+      description_ = ct::Cell();
+      return *static_cast<Derived*>(this);
+   }
+
+   Derived& clear_extra() & {
+      verbose_extra_ = ct::Cell();
+      return *static_cast<Derived*>(this);
+   }
+
+   Derived clear_extra() && {
+      verbose_extra_ = ct::Cell();
+      return *static_cast<Derived*>(this);
+   }
+
    Derived& desc(ct::Cell description) & {
-      description_ = std::move(description);
+      description_ << description;
       return *static_cast<Derived*>(this);
    }
 
    Derived desc(ct::Cell description) && {
-      description_ = std::move(description);
+      description_ << description;
       return std::move(*static_cast<Derived*>(this));
    }
 
    Derived& desc(const S& description) & {
-      description_ = ct::Cell();
       description_ << description;
       return *static_cast<Derived*>(this);
    }
 
    Derived desc(const S& description) && {
-      description_ = ct::Cell();
       description_ << description;
       return std::move(*static_cast<Derived*>(this));
    }
 
    Derived& extra(ct::Cell description) & {
-      verbose_extra_ = std::move(description);
+      verbose_extra_ << nl << description;
       return *static_cast<Derived*>(this);
    }
 
    Derived extra(ct::Cell description) && {
-      verbose_extra_ = std::move(description);
+      verbose_extra_ << nl << description;
       return std::move(*static_cast<Derived*>(this));
    }
 
    Derived& extra(const S& description) & {
-      verbose_extra_ = ct::Cell();
-      verbose_extra_ << description;
+      verbose_extra_ << nl << description;
       return *static_cast<Derived*>(this);
    }
 
    Derived extra(const S& description) && {
-      verbose_extra_ = ct::Cell();
-      verbose_extra_ << description;
+      verbose_extra_ << nl << description;
       return std::move(*static_cast<Derived*>(this));
    }
 

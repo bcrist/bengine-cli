@@ -4,6 +4,8 @@
 
 #include "processor.hpp"
 #include "param.hpp"
+#include "numeric_param.hpp"
+#include "enum_param.hpp"
 #include "flag.hpp"
 #include "end_of_options.hpp"
 #include "verbosity_param.hpp"

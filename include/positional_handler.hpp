@@ -55,12 +55,16 @@ public:
    }
 
    void operator()(HandlerContext& ctx) {
-      if (func_(ctx.argument())) {
-         if (ctx.phase() == HandlerContext::positional_phase) {
-            ctx.increment_position(true);
+      try {
+         if (func_(ctx.argument())) {
+            if (ctx.phase() == HandlerContext::positional_phase) {
+               ctx.increment_position(true);
+            }
+            ctx.handled(true);
+            ctx.stop_after_phase(true);
          }
-         ctx.handled(true);
-         ctx.stop_after_phase(true);
+      } catch (const RecoverableException<>& e) {
+         throw OptionException(ctx, e.what());
       }
    }
 

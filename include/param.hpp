@@ -6,8 +6,7 @@
 #include <be/core/exceptions.hpp>
 #include <be/core/logging.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename F>
@@ -94,7 +93,15 @@ public:
          }
 
          ctx.handled(true);
-         func_(default_value_);
+         if (throw_on_error_) {
+            try {
+               func_(default_value_);
+            } catch (const RecoverableException<>& e) {
+               throw OptionException(ctx, e.what());
+            }
+         } else {
+            func_(default_value_);
+         }
       } else if (ctx.option_value_count() > 1 && !ignore_extra_values_) {
          if (throw_on_error_) {
             throw OptionException(ctx, "Option can't take multiple values!");
@@ -107,10 +114,17 @@ public:
             ctx.stop_after_phase(true);
             return;
          }
-         
       } else {
          ctx.handled(true);
-         func_(ctx.consume_value_after_phase(0));
+         if (throw_on_error_) {
+            try {
+               func_(ctx.consume_value_after_phase(0));
+            } catch (const RecoverableException<>& e) {
+               throw OptionException(ctx, e.what());
+            }
+         } else {
+            func_(ctx.consume_value_after_phase(0));
+         }
          ctx.stop_after_phase(true);
       }
    }
@@ -134,30 +148,29 @@ Param<F> param(std::initializer_list<S> short_options,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-template <typename F>
-Param<F> param(std::initializer_list<S> short_options,
-               std::initializer_list<S> long_options,
-               S value_name, const S& desc, F func = F()) {
-   return Param<F>(std::move(short_options), std::move(long_options), value_name, std::move(func)).desc(desc);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 auto param(std::initializer_list<S> short_options,
                std::initializer_list<S> long_options,
                S value_name, S& dest) {
-   auto func = [&](const S& str) { dest = str; };
-   return Param<decltype(func)>(std::move(short_options), std::move(long_options), value_name, std::move(func));
+   auto func = [&dest](const S& str) {
+      dest = str;
+   };
+   return Param<decltype(func)>(std::move(short_options), std::move(long_options), value_name, std::move(func))
+      .extra(ct::Cell() << "Default value: " << color::fg_cyan << dest << color::reset);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+template <typename F>
 auto param(std::initializer_list<S> short_options,
-               std::initializer_list<S> long_options,
-               S value_name, const S& desc, S& dest) {
-   auto func = [&](const S& str) { dest = str; };
-   return Param<decltype(func)>(std::move(short_options), std::move(long_options), value_name, std::move(func)).desc(desc);
+           std::initializer_list<S> long_options,
+           S value_name, S& dest, F func) {
+   auto f = [=, &dest](const S& str) {
+      dest = str;
+      func();
+   };
+   return Param<decltype(f)>(std::move(short_options), std::move(long_options), value_name, std::move(f))
+      .extra(ct::Cell() << "Default value: " << color::fg_cyan << dest << color::reset);
 }
 
 } // be::cli
-} // be
 
 #endif

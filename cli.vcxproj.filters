@@ -104,6 +104,12 @@
     <ClInclude Include="include\version.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\numeric_param.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\enum_param.hpp">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">

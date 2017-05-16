@@ -61,9 +61,11 @@
     <ClInclude Include="include\describe_config.hpp" />
     <ClInclude Include="include\doc_handler.hpp" />
     <ClInclude Include="include\doc_handler_base.hpp" />
+    <ClInclude Include="include\enum_param.hpp" />
     <ClInclude Include="include\exceptions.hpp" />
     <ClInclude Include="include\exit_code_handler.hpp" />
     <ClInclude Include="include\example_handler.hpp" />
+    <ClInclude Include="include\numeric_param.hpp" />
     <ClInclude Include="include\option_handler_base.hpp" />
     <ClInclude Include="include\flag.hpp" />
     <ClInclude Include="include\handler.hpp" />

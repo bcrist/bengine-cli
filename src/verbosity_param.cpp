@@ -38,7 +38,7 @@ void VerbosityParam::operator()(HandlerContext& ctx) {
       ctx.stop_after_phase(true);
       const S& value = ctx.consume_value_after_argument(0);
 
-      auto parser = std::move(util::KeywordParser<I32>(-1)
+      auto parser = std::move(util::KeywordParser<U16>(0)
          (v::nothing, "quiet", "quiet+", "nothing", "none")
          (v::fatal, "fatal")
          (v::error, "error", "errors")
@@ -59,11 +59,10 @@ void VerbosityParam::operator()(HandlerContext& ctx) {
          i = std::find(begin, end, '|');
          gsl::cstring_span<> span(&(*begin), i - begin);
 
-         I32 parsed = parser.parse(span);
-         if (parsed == -1) {
-            try {
-               parsed = util::parse_numeric_string<U16>(value);
-            } catch (const RecoverableException<>&) {
+         auto result = parser.parse(span);
+         if (result.second != util::ParseStringError::none) {
+            result = util::parse_numeric_string<U16>(value);
+            if (result.second != util::ParseStringError::none) {
                if (throw_on_error_) {
                   throw OptionException(ctx, "Couldn't parse verbosity mask value: " + to_string(span));
                } else {
@@ -73,8 +72,8 @@ void VerbosityParam::operator()(HandlerContext& ctx) {
                }
             }
          }
-         if (parsed != -1) {
-            new_value |= (U16)parsed;
+         if (result.second == util::ParseStringError::none) {
+            new_value |= (U16)result.first;
             use_new_value = true;
          }
          if (i != end) {
@@ -95,10 +94,9 @@ VerbosityParam verbosity_param(std::initializer_list<S> short_options,
    using namespace color;
    return VerbosityParam(std::move(short_options), std::move(long_options), std::move(value_name), &verbosity_mask)
       .desc("Sets the logging verbosity mask.")
-      .extra(ct::Cell() << nl
-         << "If not specified, defaults to " << fg_cyan << "0x" << std::hex << verbosity_mask << reset
-         << ".  Must be an unsigned 16-bit integer (decimal, hex, or octal), "
-             "or one of these named constants:" << fg_cyan << indent << nl
+      .extra(ct::Cell()
+         << "Must be an unsigned 16-bit integer (decimal, hex, or octal), or one of these named constants:"
+         << fg_cyan << indent << nl
          << "quiet   " << reset << " = " << fg_cyan << "0x0000" << nl
          << "fatal   " << reset << " = " << fg_cyan << "0x0001" << nl
          << "error   " << reset << " = " << fg_cyan << "0x0002" << nl
@@ -108,9 +106,10 @@ VerbosityParam verbosity_param(std::initializer_list<S> short_options,
          << "verbose " << reset << " = " << fg_cyan << "0x0020" << nl
          << "all     " << reset << " = " << fg_cyan << "0xFFFF" << unindent << nl
          << reset << "Append '" << fg_cyan << '+' << reset
-         << "' to any of the preceeding constants to also include everything above it.  "
+         << "' to any of the preceeding constants to also include everything above it." << nl
          << "Multiple values can be combined using a bitwise OR by delimiting them with '"
-         << fg_cyan << '|' << reset << "'.");
+         << fg_cyan << '|' << reset << "'." << nl
+         << "Default value: " << fg_cyan << "0x" << std::hex << verbosity_mask << reset);
 }
 
 } // be::cli

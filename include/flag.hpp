@@ -60,7 +60,11 @@ public:
          }
       }
       ctx.handled(true);
-      func_();
+      try {
+         func_();
+      } catch (const RecoverableException<>& e) {
+         throw OptionException(ctx, e.what());
+      }
       ctx.stop_after_phase(true);
    }
 
@@ -79,27 +83,11 @@ Flag<F> flag(std::initializer_list<S> short_options,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-template <typename F>
-Flag<F> flag(std::initializer_list<S> short_options,
-             std::initializer_list<S> long_options,
-             const S& desc, F func = F()) {
-   return Flag<F>(std::move(short_options), std::move(long_options), std::move(func)).desc(desc);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 inline auto flag(std::initializer_list<S> short_options,
                  std::initializer_list<S> long_options,
                  bool& ref) {
    auto func = [&ref](){ ref = true; };
    return Flag<decltype(func)>(std::move(short_options), std::move(long_options), std::move(func));
-}
-
-///////////////////////////////////////////////////////////////////////////////
-inline auto flag(std::initializer_list<S> short_options,
-                 std::initializer_list<S> long_options,
-                 const S& desc, bool& ref) {
-   auto func = [&ref](){ ref = true; };
-   return Flag<decltype(func)>(std::move(short_options), std::move(long_options), std::move(func)).desc(desc);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -109,15 +97,6 @@ auto flag(std::initializer_list<S> short_options,
           T& ref, T val) {
    auto func = [&ref,val{std::move(val)}](){ ref = val; };
    return Flag<decltype(func)>(std::move(short_options), std::move(long_options), std::move(func));
-}
-
-///////////////////////////////////////////////////////////////////////////////
-template <typename T>
-auto flag(std::initializer_list<S> short_options,
-          std::initializer_list<S> long_options,
-          const S& desc, T& ref, T val) {
-   auto func = [&ref,val{std::move(val)}](){ ref = val; };
-   return Flag<decltype(func)>(std::move(short_options), std::move(long_options), std::move(func)).desc(desc);
 }
 
 } // be::cli
