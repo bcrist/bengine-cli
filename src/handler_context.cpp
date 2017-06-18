@@ -3,8 +3,7 @@
 #include "processor.hpp"
 #include "exceptions.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 const Processor& HandlerContext::processor() const {
@@ -382,4 +381,3 @@ void HandlerContext::after_argument_() {
 }
 
 } // be::cli
-} // be

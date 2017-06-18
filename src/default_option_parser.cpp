@@ -1,8 +1,7 @@
 #include "pch.hpp"
 #include "default_option_parser.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 OptionParseResult default_option_parser(const S& arg) {
    OptionParseResult result;
@@ -45,5 +44,4 @@ OptionParseResult default_option_parser(const S& arg) {
 }
 
 } // be::cli
-} // be
 

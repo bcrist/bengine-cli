@@ -10,8 +10,7 @@
 #include <functional>
 #include <iosfwd>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class Processor final {
@@ -72,6 +71,5 @@ private:
 std::ostream& operator<<(std::ostream& os, const Processor& proc);
 
 } // be::cli
-} // be
 
 #endif

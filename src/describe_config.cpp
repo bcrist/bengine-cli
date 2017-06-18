@@ -2,8 +2,7 @@
 #include "describe_config.hpp"
 #include "ids.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 namespace {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -228,4 +227,3 @@ DescribeConfig default_describe_config(bool man_style_options) {
 }
 
 } // be::cli
-} // be

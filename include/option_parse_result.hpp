@@ -6,8 +6,7 @@
 #include <be/core/be.hpp>
 #include <vector>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 struct OptionParseResult {
    S prefix, suffix;
@@ -17,7 +16,6 @@ struct OptionParseResult {
 };
 
 } // be::cli
-} // be
 
 #endif
 

@@ -3,8 +3,7 @@
 
 #include <be/util/paths.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 namespace {
 
 S find_app_name() {
@@ -23,4 +22,3 @@ const S& app_name() {
 }
 
 } // be::cli
-} // be

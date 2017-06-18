@@ -5,8 +5,7 @@
 #include <be/core/exceptions.hpp>
 #include <iostream>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 namespace {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -251,4 +250,3 @@ std::ostream& operator<<(std::ostream& os, const Processor& proc) {
 }
 
 } // be::cli
-} // be

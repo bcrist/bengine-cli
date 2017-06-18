@@ -78,7 +78,7 @@
     <ClInclude Include="include\param.hpp" />
     <ClInclude Include="include\processor.hpp" />
     <ClInclude Include="include\escape_cli_arg.hpp" />
-    <ClInclude Include="include\pch.hpp" />
+    <ClInclude Include="src\pch.hpp" />
     <ClInclude Include="include\end_of_options.hpp" />
     <ClInclude Include="include\synopsis_handler.hpp" />
     <ClInclude Include="include\verbosity_param.hpp" />
@@ -91,7 +91,9 @@
     <ClCompile Include="src\handler_context.cpp" />
     <ClCompile Include="src\ids.cpp" />
     <ClCompile Include="src\processor.cpp" />
-    <ClCompile Include="src\native\vc_win\escape_cli_arg.cpp" />
+    <ClCompile Include="src\native\vc_win\escape_cli_arg.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

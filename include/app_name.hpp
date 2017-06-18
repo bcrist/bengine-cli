@@ -5,13 +5,11 @@
 #include "cli_autolink.hpp"
 #include <be/core/be.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 const S& app_name();
 
 } // be::cli
-} // be
 
 #endif
 

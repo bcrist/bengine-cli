@@ -9,8 +9,7 @@
 #include <gsl/string_span>
 #include <vector>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Derived>
@@ -238,6 +237,5 @@ protected:
 };
 
 } // be::cli
-} // be
 
 #endif

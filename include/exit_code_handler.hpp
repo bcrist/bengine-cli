@@ -6,8 +6,7 @@
 #include "section_ids.hpp"
 #include <be/ctable/cell.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class ExitCodeHandler final : public DocHandlerBase<ExitCodeHandler> {
@@ -41,6 +40,5 @@ inline ExitCodeHandler exit_code(int code, const S& description) {
 }
 
 } // be::cli
-} // be
 
 #endif

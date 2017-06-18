@@ -5,8 +5,7 @@
 #include "handler_base.hpp"
 #include "handler_context.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Derived>
@@ -78,6 +77,5 @@ protected:
 
 
 } // be::cli
-} // be
 
 #endif

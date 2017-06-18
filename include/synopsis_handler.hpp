@@ -5,8 +5,7 @@
 #include "doc_handler.hpp"
 #include "app_name.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 auto synopsis(S command, ct::Cell cell) {
@@ -23,6 +22,5 @@ auto synopsis(ct::Cell cell) {
 }
 
 } // be::cli
-} // be
 
 #endif

@@ -6,8 +6,7 @@
 #include <be/core/exceptions.hpp>
 #include <be/core/logging.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class VerbosityParam final : public OptionHandlerBase<VerbosityParam> {
@@ -34,6 +33,5 @@ VerbosityParam verbosity_param(std::initializer_list<S> short_options,
                                S value_name, U16& verbosity_mask);
 
 } // be::cli
-} // be
 
 #endif

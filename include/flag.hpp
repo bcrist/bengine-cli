@@ -6,8 +6,7 @@
 #include "exceptions.hpp"
 #include <be/core/logging.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename F>
@@ -100,6 +99,5 @@ auto flag(std::initializer_list<S> short_options,
 }
 
 } // be::cli
-} // be
 
 #endif

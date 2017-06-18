@@ -5,8 +5,7 @@
 #include "option_parse_result.hpp"
 #include <set>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 class Processor;
 
@@ -118,7 +117,6 @@ private:
 };
 
 } // be::cli
-} // be
 
 #endif
 

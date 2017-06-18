@@ -4,13 +4,11 @@
 
 #include "option_parse_result.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 OptionParseResult default_option_parser(const S& arg);
 
 } // be::cli
-} // be
 
 #endif
 

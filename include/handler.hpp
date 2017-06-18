@@ -22,8 +22,7 @@ BOOST_TYPE_ERASURE_MEMBER((be)(cli)(has_long_option), long_option)
 BOOST_TYPE_ERASURE_MEMBER((be)(cli)(has_generic_option_handler), generic_option_handler)
 BOOST_TYPE_ERASURE_MEMBER((be)(cli)(has_describe), describe)
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 class Processor;
 
@@ -44,6 +43,5 @@ using Handler = boost::type_erasure::any<boost::mpl::vector<
    boost::type_erasure::relaxed>>;
 
 } // be::cli
-} // be
 
 #endif

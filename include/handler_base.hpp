@@ -7,8 +7,7 @@
 #include <be/core/id.hpp>
 #include <cassert>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Derived>
@@ -75,7 +74,6 @@ template <typename Derived>
 const std::array<I32, 0> HandlerBase<Derived>::positions;
 
 } // be::cli
-} // be
 
 #endif
 

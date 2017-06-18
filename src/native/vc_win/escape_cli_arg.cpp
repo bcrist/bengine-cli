@@ -1,11 +1,9 @@
-#include "pch.hpp"
 #include <be/core/native.hpp>
 #ifdef BE_NATIVE_VC_WIN
 #include <be/core/be.hpp>
 #include <gsl/string_span>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 S escape_cli_arg(gsl::cstring_span<> arg) {
    if (arg.empty()) {
@@ -47,6 +45,5 @@ S escape_cli_arg(gsl::cstring_span<> arg) {
 }
 
 } // be::cli
-} // be
 
 #endif

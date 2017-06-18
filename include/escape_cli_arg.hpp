@@ -4,12 +4,10 @@
 
 #include <be/core/be.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 S escape_cli_arg(gsl::cstring_span<> arg); // Native implementation
 
 } // be::cli
-} // be
 
 #endif

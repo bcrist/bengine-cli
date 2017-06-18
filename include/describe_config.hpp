@@ -6,8 +6,7 @@
 #include <be/core/id.hpp>
 #include <vector>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 struct DescribeSection {
@@ -21,7 +20,6 @@ using DescribeConfig = std::vector<DescribeSection>;
 DescribeConfig default_describe_config(bool man_style_options = false);
 
 } // be::cli
-} // be
 
 #endif
 

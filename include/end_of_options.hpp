@@ -7,8 +7,7 @@
 #include "exceptions.hpp"
 #include <be/core/logging.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class EndOfOptionsFlag final : public OptionHandlerBase<EndOfOptionsFlag> {
@@ -51,6 +50,5 @@ EndOfOptionsFlag end_of_options(bool require_long_prefix = true) {
 }
 
 } // be::cli
-} // be
 
 #endif

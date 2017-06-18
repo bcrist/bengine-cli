@@ -4,8 +4,7 @@
 
 #include "option_handler_base.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename F>
@@ -123,6 +122,5 @@ PositionalHandler<F> nth(I32 n, F func = F()) {
 }
 
 } // be::cli
-} // be
 
 #endif

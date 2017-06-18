@@ -5,8 +5,7 @@
 #include "handler_context.hpp"
 #include <be/core/exceptions.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 class ArgumentException : public FatalException {
 public:
@@ -56,6 +55,5 @@ private:
 };
 
 } // be::cli
-} // be
 
 #endif

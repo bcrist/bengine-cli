@@ -6,8 +6,7 @@
 #include "section_ids.hpp"
 #include <be/ctable/cell.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 template <typename F>
@@ -74,6 +73,5 @@ template <typename T> auto license(T val = T()) { return doc(ids::cli_describe_s
 template <typename T> auto epilogue(T val = T()) { return doc(ids::cli_describe_section_epilogue, std::move(val)); }
 
 } // be::cli
-} // be
 
 #endif

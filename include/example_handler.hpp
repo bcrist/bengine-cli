@@ -5,8 +5,7 @@
 #include "doc_handler.hpp"
 #include "app_name.hpp"
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 auto example(S command, ct::Cell args, ct::Cell description) {
@@ -45,6 +44,5 @@ auto example(ct::Cell args, S description) {
 }
 
 } // be::cli
-} // be
 
 #endif

@@ -5,8 +5,7 @@
 #include <be/util/parse_numeric_string.hpp>
 #include <be/core/logging.hpp>
 
-namespace be {
-namespace cli {
+namespace be::cli {
 
 void VerbosityParam::operator()(HandlerContext& ctx) {
    if (ctx.value_count() == 0 || ctx.is_option(0)) {
@@ -113,4 +112,3 @@ VerbosityParam verbosity_param(std::initializer_list<S> short_options,
 }
 
 } // be::cli
-} // be
