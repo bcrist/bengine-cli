@@ -3,7 +3,7 @@
 #define BE_CLI_FLAG_HPP_
 
 #include "option_handler_base.hpp"
-#include "exceptions.hpp"
+#include "option_error.hpp"
 #include <be/core/logging.hpp>
 
 namespace be::cli {
@@ -47,12 +47,9 @@ public:
 
          if (!ignore_values_) {
             if (throw_on_error_) {
-               throw OptionException(ctx, "Option cannot take a value!");
+               throw OptionError(ctx, "Option cannot take a value!");
             } else {
-               be_short_warn() << "Ignoring option '" BE_LOG_INTERP(BEIDN_LOG_ATTR_KEYWORD) "': cannot take a value!"
-                  & hidden(ids::log_attr_keyword) << S(ctx.option())
-                  | default_log();
-
+               be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': cannot take a value!" | default_log();
                ctx.handled(true);
                return;
             }
@@ -61,8 +58,8 @@ public:
       ctx.handled(true);
       try {
          func_();
-      } catch (const RecoverableException<>& e) {
-         throw OptionException(ctx, e.what());
+      } catch (const std::runtime_error& e) {
+         throw OptionError(ctx, e.what());
       }
       ctx.stop_after_phase(true);
    }

@@ -1,6 +1,6 @@
 #include "pch.hpp"
 #include "verbosity_param.hpp"
-#include "exceptions.hpp"
+#include "option_error.hpp"
 #include <be/util/keyword_parser.hpp>
 #include <be/util/parse_numeric_string.hpp>
 #include <be/core/logging.hpp>
@@ -10,11 +10,9 @@ namespace be::cli {
 void VerbosityParam::operator()(HandlerContext& ctx) {
    if (ctx.value_count() == 0 || ctx.is_option(0)) {
       if (throw_on_error_) {
-         throw OptionException(ctx, "Option must have a value!");
+         throw OptionError(ctx, "Option must have a value!");
       } else {
-         be_short_warn() << "Ignoring option '" BE_LOG_INTERP(BEIDN_LOG_ATTR_KEYWORD) "': must specify a value!"
-            & hidden(ids::log_attr_keyword) << S(ctx.option())
-            | default_log();
+         be_short_warn() << "Ignoring option '" + ctx.option() + "': must specify a value!" | default_log();
 
          ctx.handled(true);
          ctx.stop_after_phase(true);
@@ -22,11 +20,9 @@ void VerbosityParam::operator()(HandlerContext& ctx) {
       }
    } else if (ctx.option_value_count() > 1) {
       if (throw_on_error_) {
-         throw OptionException(ctx, "Option can't take multiple values!");
+         throw OptionError(ctx, "Option can't take multiple values!");
       } else {
-         be_short_warn() << "Ignoring option '" BE_LOG_INTERP(BEIDN_LOG_ATTR_KEYWORD) "': cannot take multiple values!"
-            & hidden(ids::log_attr_keyword) << S(ctx.option())
-            | default_log();
+         be_short_warn() << "Ignoring option '" + ctx.option() + "': cannot take multiple values!" | default_log();
 
          ctx.handled(true);
          ctx.stop_after_phase(true);
@@ -58,21 +54,21 @@ void VerbosityParam::operator()(HandlerContext& ctx) {
          i = std::find(begin, end, '|');
          gsl::cstring_span<> span(&(*begin), i - begin);
 
-         auto result = parser.parse(span);
-         if (result.second != util::ParseStringError::none) {
-            result = util::parse_numeric_string<U16>(value);
-            if (result.second != util::ParseStringError::none) {
+         std::error_code ec;
+         auto result = parser.parse(span, ec);
+         if (ec) {
+            ec = std::error_code();
+            result = util::parse_numeric_string<U16>(value, ec);
+            if (ec) {
                if (throw_on_error_) {
-                  throw OptionException(ctx, "Couldn't parse verbosity mask value: " + to_string(span));
+                  throw OptionError(ctx, "Couldn't parse verbosity mask value: " + to_string(span));
                } else {
-                  be_short_warn() << "Ignoring unrecognized or out-of-range verbosity mask value: '" BE_LOG_INTERP(BEIDN_LOG_ATTR_VALUE) "'"
-                     & hidden(ids::log_attr_value) << to_string(span)
-                     | default_log();
+                  be_short_warn() << "Ignoring unrecognized or out-of-range verbosity mask value: '" + to_string(span) + "'" | default_log();
                }
             }
          }
-         if (result.second == util::ParseStringError::none) {
-            new_value |= (U16)result.first;
+         if (!ec) {
+            new_value |= result;
             use_new_value = true;
          }
          if (i != end) {

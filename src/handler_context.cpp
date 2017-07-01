@@ -1,7 +1,8 @@
 #include "pch.hpp"
 #include "handler_context.hpp"
 #include "processor.hpp"
-#include "exceptions.hpp"
+#include "option_error.hpp"
+#include <be/core/exceptions.hpp>
 
 namespace be::cli {
 
@@ -222,7 +223,7 @@ const S& HandlerContext::consume_value_(std::size_t value_index, consumed_state 
       }
    }
 
-   throw Fatal("Invalid value index!");
+   throw FatalTrace(std::make_error_code(std::errc::invalid_argument), "Invalid value index!");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -244,7 +245,7 @@ HandlerContext::HandlerContext(Processor& processor, const arg_sequence& args)
      current_option_(0)
 {
    if (processor.context_) {
-      throw Fatal("Argument processing is already in progress!");
+      throw FatalTrace(std::make_error_code(std::errc::operation_in_progress), "Argument processing is already in progress!");
    }
 
    arg_consumption_.resize(args_.size(), unconsumed);
@@ -341,7 +342,7 @@ void HandlerContext::after_option_() {
    }
 
    if (!option_handled_) {
-      throw OptionException(*this, "Unrecognized option!");
+      throw OptionError(*this, "Unrecognized option!");
    }
    arg_handled_ = true;
 }
@@ -376,7 +377,7 @@ void HandlerContext::after_argument_() {
    }
 
    if (!arg_handled_) {
-      throw ArgumentException(*this, "Unhandled argument!");
+      throw ArgumentError(*this, "Unhandled argument!");
    }
 }
 

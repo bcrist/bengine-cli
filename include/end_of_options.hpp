@@ -4,7 +4,7 @@
 
 #include "option_handler_base.hpp"
 #include "processor.hpp"
-#include "exceptions.hpp"
+#include "option_error.hpp"
 #include <be/core/logging.hpp>
 
 namespace be::cli {
@@ -18,12 +18,9 @@ public:
    void operator()(HandlerContext& ctx) {
       if (ctx.option_value_count() > 0) {
          if (throw_on_error_) {
-            throw OptionException(ctx, "Option cannot take a value!");
+            throw OptionError(ctx, "Option cannot take a value!");
          } else {
-            be_short_warn() << "Ignoring '" BE_LOG_INTERP(BEIDN_LOG_ATTR_KEYWORD) "': cannot take a value!"
-               & hidden(ids::log_attr_keyword) << S(ctx.option())
-               | default_log();
-
+            be_short_warn() << "Ignoring '" << S(ctx.option()) << "': cannot take a value!" | default_log();
             ctx.handled(true);
             return;
          }

@@ -62,10 +62,11 @@
     <ClInclude Include="include\doc_handler.hpp" />
     <ClInclude Include="include\doc_handler_base.hpp" />
     <ClInclude Include="include\enum_param.hpp" />
-    <ClInclude Include="include\exceptions.hpp" />
+    <ClInclude Include="include\argument_error.hpp" />
     <ClInclude Include="include\exit_code_handler.hpp" />
     <ClInclude Include="include\example_handler.hpp" />
     <ClInclude Include="include\numeric_param.hpp" />
+    <ClInclude Include="include\option_error.hpp" />
     <ClInclude Include="include\option_handler_base.hpp" />
     <ClInclude Include="include\flag.hpp" />
     <ClInclude Include="include\handler.hpp" />
@@ -88,8 +89,10 @@
     <ClCompile Include="src\app_name.cpp" />
     <ClCompile Include="src\default_option_parser.cpp" />
     <ClCompile Include="src\describe_config.cpp" />
+    <ClCompile Include="src\argument_error.cpp" />
     <ClCompile Include="src\handler_context.cpp" />
     <ClCompile Include="src\ids.cpp" />
+    <ClCompile Include="src\option_error.cpp" />
     <ClCompile Include="src\processor.cpp" />
     <ClCompile Include="src\native\vc_win\escape_cli_arg.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

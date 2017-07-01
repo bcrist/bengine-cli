@@ -36,25 +36,17 @@ auto enum_param(std::initializer_list<S> short_options,
    auto func = [=, &dest](const S& str) {
       auto& parser = detail::enum_parser<T>();
 
-      auto result = parser.parse(str);
-      if (result.second != util::ParseStringError::none) {
+      std::error_code ec;
+      T result = parser.parse(str, ec);
+      if (ec) {
          auto numeric_result = util::parse_numeric_string<typename EnumTraits<T>::underlying_type>(str);
-         result.first = static_cast<T>(numeric_result.first);
-         result.second = numeric_result.second;
+         result = static_cast<T>(numeric_result);
       }
 
-      if (result.second != util::ParseStringError::none) {
-         if (result.second == util::ParseStringError::syntax_error) {
-            throw Recoverable<>("Unrecognized enum value!");
-         } else {
-            util::throw_on_error(result);
-         }
-      }
-
-      if (!EnumTraits<T>::is_valid(result.first)) {
-         throw Recoverable<>("Invalid enum value!");
+      if (!EnumTraits<T>::is_valid(result)) {
+         throw std::invalid_argument("Invalid enum value!");
       } else {
-         dest = result.first;
+         dest = result;
       }
    };
 
@@ -87,25 +79,17 @@ auto enum_param(std::initializer_list<S> short_options,
    auto f = [=, &dest](const S& str) {
       auto& parser = detail::enum_parser<T>();
 
-      auto result = parser.parse(str);
-      if (result.second != util::ParseStringError::none) {
+      std::error_code ec;
+      T result = parser.parse(str, ec);
+      if (ec) {
          auto numeric_result = util::parse_numeric_string<typename EnumTraits<T>::underlying_type>(str);
-         result.first = static_cast<T>(numeric_result.first);
-         result.second = numeric_result.second;
+         result = static_cast<T>(numeric_result);
       }
 
-      if (result.second != util::ParseStringError::none) {
-         if (result.second == util::ParseStringError::syntax_error) {
-            throw Recoverable<>("Unrecognized enum value!");
-         } else {
-            util::throw_on_error(result);
-         }
-      }
-
-      if (!EnumTraits<T>::is_valid(result.first)) {
-         throw Recoverable<>("Invalid enum value!");
+      if (!EnumTraits<T>::is_valid(result)) {
+         throw std::invalid_argument("Invalid enum value!");
       } else {
-         dest = result.first;
+         dest = result;
          func();
       }
    };
@@ -139,25 +123,17 @@ auto enum_param(std::initializer_list<S> short_options,
    auto f = [=](const S& str) {
       auto& parser = detail::enum_parser<T>();
 
-      auto result = parser.parse(str);
-      if (result.second != util::ParseStringError::none) {
+      std::error_code ec;
+      T result = parser.parse(str);
+      if (ec) {
          auto numeric_result = util::parse_numeric_string<typename EnumTraits<T>::underlying_type>(str);
-         result.first = static_cast<T>(numeric_result.first);
-         result.second = numeric_result.second;
+         result = static_cast<T>(numeric_result);
       }
 
-      if (result.second != util::ParseStringError::none) {
-         if (result.second == util::ParseStringError::syntax_error) {
-            throw Recoverable<>("Unrecognized enum value!");
-         } else {
-            util::throw_on_error(result);
-         }
-      }
-
-      if (!EnumTraits<T>::is_valid(result.first)) {
-         throw Recoverable<>("Invalid enum value!");
+      if (!EnumTraits<T>::is_valid(result)) {
+         throw std::invalid_argument("Invalid enum value!");
       } else {
-         func(result.first);
+         func(result);
       }
    };
 

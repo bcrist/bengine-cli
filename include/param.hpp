@@ -80,11 +80,9 @@ public:
 
          if (!allow_default_value_) {
             if (throw_on_error_) {
-               throw OptionException(ctx, "Option must have a value!");
+               throw OptionError(ctx, "Option must have a value!");
             } else {
-               be_short_warn() << "Ignoring option '" BE_LOG_INTERP(BEIDN_LOG_ATTR_KEYWORD) "': must specify a value!"
-                  & hidden(ids::log_attr_keyword) << S(ctx.option())
-                  | default_log();
+               be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': must specify a value!" | default_log();
 
                ctx.handled(true);
                ctx.stop_after_phase(true);
@@ -96,19 +94,17 @@ public:
          if (throw_on_error_) {
             try {
                func_(default_value_);
-            } catch (const RecoverableException<>& e) {
-               throw OptionException(ctx, e.what());
+            } catch (const std::runtime_error& e) {
+               throw OptionError(ctx, e.what());
             }
          } else {
             func_(default_value_);
          }
       } else if (ctx.option_value_count() > 1 && !ignore_extra_values_) {
          if (throw_on_error_) {
-            throw OptionException(ctx, "Option can't take multiple values!");
+            throw OptionError(ctx, "Option can't take multiple values!");
          } else {
-            be_short_warn() << "Ignoring option '" BE_LOG_INTERP(BEIDN_LOG_ATTR_KEYWORD) "': cannot take multiple values!"
-               & hidden(ids::log_attr_keyword) << S(ctx.option())
-               | default_log();
+            be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': cannot take multiple values!" | default_log();
             
             ctx.handled(true);
             ctx.stop_after_phase(true);
@@ -119,8 +115,8 @@ public:
          if (throw_on_error_) {
             try {
                func_(ctx.consume_value_after_phase(0));
-            } catch (const RecoverableException<>& e) {
-               throw OptionException(ctx, e.what());
+            } catch (const std::runtime_error& e) {
+               throw OptionError(ctx, e.what());
             }
          } else {
             func_(ctx.consume_value_after_phase(0));

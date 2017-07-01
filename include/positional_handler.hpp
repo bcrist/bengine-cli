@@ -62,8 +62,8 @@ public:
             ctx.handled(true);
             ctx.stop_after_phase(true);
          }
-      } catch (const RecoverableException<>& e) {
-         throw OptionException(ctx, e.what());
+      } catch (const std::runtime_error& e) {
+         throw OptionError(ctx, e.what());
       }
    }
 
