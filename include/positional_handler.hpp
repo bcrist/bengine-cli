@@ -37,6 +37,16 @@ public:
       return std::move(*this);
    }
 
+   PositionalHandler<F>& when(std::function<bool()> func) & {
+      enabled_ = std::move(func);
+      return *this;
+   }
+
+   PositionalHandler<F> when(std::function<bool()> func) && {
+      enabled_ = std::move(func);
+      return std::move(*this);
+   }
+
    std::size_t raw_position_count() const {
       return raw_positions_.size();
    }
@@ -54,6 +64,10 @@ public:
    }
 
    void operator()(HandlerContext& ctx) {
+      if (enabled_ && !enabled_()) {
+         return;
+      }
+
       try {
          if (func_(ctx.argument())) {
             if (ctx.phase() == HandlerContext::positional_phase) {
@@ -88,6 +102,7 @@ private:
 
    std::vector<I32> raw_positions_;
    std::vector<I32> positions_;
+   std::function<bool()> enabled_;
    F func_;
 };
 

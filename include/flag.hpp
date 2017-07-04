@@ -40,6 +40,10 @@ public:
    }
 
    void operator()(HandlerContext& ctx) {
+      if (enabled_ && !enabled_()) {
+         return;
+      }
+
       if (ctx.option_value_count() > 0) {
          if (skip_if_has_value_) {
             return;

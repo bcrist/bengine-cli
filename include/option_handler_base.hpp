@@ -8,6 +8,7 @@
 #include <be/ctable/cell.hpp>
 #include <gsl/string_span>
 #include <vector>
+#include <functional>
 
 namespace be::cli {
 
@@ -87,6 +88,16 @@ public:
 
    Derived throw_on_error(bool enabled) && {
       throw_on_error_ = enabled;
+      return std::move(*static_cast<Derived*>(this));
+   }
+
+   Derived& when(std::function<bool()> func) & {
+      enabled_ = std::move(func);
+      return *static_cast<Derived*>(this);
+   }
+
+   Derived when(std::function<bool()> func) && {
+      enabled_ = std::move(func);
       return std::move(*static_cast<Derived*>(this));
    }
 
@@ -233,6 +244,7 @@ protected:
    std::vector<S> long_options_;
    ct::Cell description_;
    ct::Cell verbose_extra_;
+   std::function<bool()> enabled_;
    bool throw_on_error_;
 };
 

@@ -5,6 +5,7 @@
 #include "option_handler_base.hpp"
 #include <be/core/exceptions.hpp>
 #include <be/core/logging.hpp>
+#include <functional>
 
 namespace be::cli {
 
@@ -73,6 +74,10 @@ public:
    }
 
    void operator()(HandlerContext& ctx) {
+      if (enabled_ && !enabled_()) {
+         return;
+      }
+
       if (ctx.value_count() == 0 || !allow_option_as_value_ && ctx.is_option(0)) {
          if (skip_if_no_value_) {
             return;
@@ -83,15 +88,8 @@ public:
                throw OptionError(ctx, "Option must have a value!");
             } else {
                be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': must specify a value!" | default_log();
-
-               ctx.handled(true);
-               ctx.stop_after_phase(true);
-               return;
             }
-         }
-
-         ctx.handled(true);
-         if (throw_on_error_) {
+         } else if (throw_on_error_) {
             try {
                func_(default_value_);
             } catch (const std::runtime_error& e) {
@@ -105,13 +103,8 @@ public:
             throw OptionError(ctx, "Option can't take multiple values!");
          } else {
             be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': cannot take multiple values!" | default_log();
-            
-            ctx.handled(true);
-            ctx.stop_after_phase(true);
-            return;
          }
       } else {
-         ctx.handled(true);
          if (throw_on_error_) {
             try {
                func_(ctx.consume_value_after_phase(0));
@@ -121,8 +114,9 @@ public:
          } else {
             func_(ctx.consume_value_after_phase(0));
          }
-         ctx.stop_after_phase(true);
       }
+      ctx.handled(true);
+      ctx.stop_after_phase(true);
    }
 
 private:

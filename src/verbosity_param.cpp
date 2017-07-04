@@ -8,6 +8,10 @@
 namespace be::cli {
 
 void VerbosityParam::operator()(HandlerContext& ctx) {
+   if (enabled_ && !enabled_()) {
+      return;
+   }
+
    if (ctx.value_count() == 0 || ctx.is_option(0)) {
       if (throw_on_error_) {
          throw OptionError(ctx, "Option must have a value!");

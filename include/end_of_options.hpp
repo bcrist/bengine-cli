@@ -16,6 +16,10 @@ public:
       : OptionHandlerBase<EndOfOptionsFlag>(std::move(short_options), std::move(long_options)) { }
 
    void operator()(HandlerContext& ctx) {
+      if (enabled_ && !enabled_()) {
+         return;
+      }
+
       if (ctx.option_value_count() > 0) {
          if (throw_on_error_) {
             throw OptionError(ctx, "Option cannot take a value!");

@@ -14,5 +14,6 @@
 #include "synopsis_handler.hpp"
 #include "exit_code_handler.hpp"
 #include "example_handler.hpp"
+#include "log_exception.hpp"
 
 #endif

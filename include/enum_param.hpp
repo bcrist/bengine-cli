@@ -32,7 +32,11 @@ const util::KeywordParser<T>& enum_parser() {
 template <typename T>
 auto enum_param(std::initializer_list<S> short_options,
                 std::initializer_list<S> long_options,
-                S value_name, T& dest) {
+                S value_name, T& dest, bool(*is_valid)(T) = nullptr) {
+   if (!is_valid) {
+      is_valid = &(EnumTraits<T>::is_valid);
+   }
+
    auto func = [=, &dest](const S& str) {
       auto& parser = detail::enum_parser<T>();
 
@@ -43,7 +47,7 @@ auto enum_param(std::initializer_list<S> short_options,
          result = static_cast<T>(numeric_result);
       }
 
-      if (!EnumTraits<T>::is_valid(result)) {
+      if (!is_valid(result)) {
          throw std::invalid_argument("Invalid enum value!");
       } else {
          dest = result;
@@ -56,6 +60,9 @@ auto enum_param(std::initializer_list<S> short_options,
    bool first = true;
    auto values = EnumTraits<T>::values<>();
    for (T value : values) {
+      if (!is_valid(value)) {
+         continue;
+      }
       if (first) {
          first = false;
       } else {
@@ -75,7 +82,11 @@ auto enum_param(std::initializer_list<S> short_options,
 template <typename T, typename F>
 auto enum_param(std::initializer_list<S> short_options,
                 std::initializer_list<S> long_options,
-                S value_name, T& dest, F func = F()) {
+                S value_name, T& dest, bool(*is_valid)(T), F func) {
+   if (!is_valid) {
+      is_valid = &(EnumTraits<T>::is_valid);
+   }
+
    auto f = [=, &dest](const S& str) {
       auto& parser = detail::enum_parser<T>();
 
@@ -86,11 +97,10 @@ auto enum_param(std::initializer_list<S> short_options,
          result = static_cast<T>(numeric_result);
       }
 
-      if (!EnumTraits<T>::is_valid(result)) {
+      if (!is_valid(result)) {
          throw std::invalid_argument("Invalid enum value!");
       } else {
-         dest = result;
-         func();
+         dest = func(result);
       }
    };
 
@@ -100,6 +110,9 @@ auto enum_param(std::initializer_list<S> short_options,
    bool first = true;
    auto values = EnumTraits<T>::values<>();
    for (T value : values) {
+      if (!is_valid(value)) {
+         continue;
+      }
       if (first) {
          first = false;
       } else {
@@ -119,7 +132,11 @@ auto enum_param(std::initializer_list<S> short_options,
 template <typename T, typename F>
 auto enum_param(std::initializer_list<S> short_options,
                 std::initializer_list<S> long_options,
-                S value_name, F func = F()) {
+                S value_name, bool(*is_valid)(T), F func) {
+   if (!is_valid) {
+      is_valid = &(EnumTraits<T>::is_valid);
+   }
+
    auto f = [=](const S& str) {
       auto& parser = detail::enum_parser<T>();
 
@@ -130,7 +147,7 @@ auto enum_param(std::initializer_list<S> short_options,
          result = static_cast<T>(numeric_result);
       }
 
-      if (!EnumTraits<T>::is_valid(result)) {
+      if (!is_valid(result)) {
          throw std::invalid_argument("Invalid enum value!");
       } else {
          func(result);
@@ -143,6 +160,9 @@ auto enum_param(std::initializer_list<S> short_options,
    bool first = true;
    auto values = EnumTraits<T>::values<>();
    for (T value : values) {
+      if (!is_valid(value)) {
+         continue;
+      }
       if (first) {
          first = false;
       } else {
