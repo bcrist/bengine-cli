@@ -10,7 +10,7 @@ namespace be::cli {
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Derived>
 class DocHandlerBase : public HandlerBase<Derived> {
-public:   
+public:
    DocHandlerBase()
       : no_verbose_enabled_(true),
         verbose_enabled_(true),

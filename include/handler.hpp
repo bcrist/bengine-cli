@@ -23,14 +23,14 @@ public:
 
    virtual std::size_t short_option_count() const noexcept = 0;
    virtual S short_option(std::size_t n) const noexcept = 0;
-   
+
    virtual std::size_t long_option_count() const noexcept = 0;
    virtual S long_option(std::size_t n) const noexcept = 0;
-   
+
    virtual bool handles_generic_options() const noexcept = 0;
-   
+
    virtual void describe(Id section, ct::Table& table, bool verbose, const S& query) const = 0;
-   
+
    virtual void handle(HandlerContext& ctx) = 0;
 };
 

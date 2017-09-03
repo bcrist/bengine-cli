@@ -10,7 +10,7 @@ namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class ExitCodeHandler final : public DocHandlerBase<ExitCodeHandler> {
-public:   
+public:
    ExitCodeHandler(int exit_code, ct::Cell description)
       : exit_code_(exit_code),
         description_(std::move(description)) {

@@ -11,7 +11,7 @@ namespace be::cli {
 ///////////////////////////////////////////////////////////////////////////////
 template <typename F>
 class Flag final : public OptionHandlerBase<Flag<F>> {
-public:   
+public:
    Flag(std::initializer_list<S> short_options, std::initializer_list<S> long_options, F func = F())
       : OptionHandlerBase<Flag<F>>(std::move(short_options), std::move(long_options)),
         skip_if_has_value_(false),

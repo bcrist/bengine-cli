@@ -11,7 +11,7 @@ namespace be::cli {
 ///////////////////////////////////////////////////////////////////////////////
 template <typename F>
 class DocHandler final : public DocHandlerBase<DocHandler<F>> {
-public:   
+public:
    DocHandler(Id section, F func = F())
       : section_(section),
         func_(std::move(func)) { }

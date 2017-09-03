@@ -15,7 +15,7 @@ namespace be::cli {
 ///////////////////////////////////////////////////////////////////////////////
 template <typename Derived>
 class OptionHandlerBase : public HandlerBase<Derived> {
-public:   
+public:
    OptionHandlerBase(std::initializer_list<S> short_options, std::initializer_list<S> long_options)
       : short_options_(std::move(short_options)),
         long_options_(std::move(long_options)),
@@ -186,7 +186,7 @@ public:
          }
 
          t << color::fg_cyan << option_value_name;
-         
+
          if (optional) {
             t << color::fg_dark_gray << " ]";
          }

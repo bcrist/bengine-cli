@@ -11,7 +11,7 @@ namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class EndOfOptionsFlag final : public OptionHandlerBase<EndOfOptionsFlag> {
-public:   
+public:
    EndOfOptionsFlag(std::initializer_list<S> short_options, std::initializer_list<S> long_options)
       : OptionHandlerBase<EndOfOptionsFlag>(std::move(short_options), std::move(long_options)) { }
 

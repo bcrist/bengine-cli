@@ -23,7 +23,7 @@ public:
    Processor();
 
    void use_option_parser(option_parser parser);
-   
+
    Processor& operator()(handler_ptr handler);
 
    template <typename H>
@@ -38,7 +38,7 @@ public:
 
    void describe(std::ostream& os, bool verbose, Id section) const;
    void describe(std::ostream& os, bool verbose, const S& query = S()) const;
-   
+
    template <typename SectionPred>
    void describe(std::ostream& os, bool verbose, SectionPred pred) const {
       for (auto& section : describe_config_) {
@@ -52,7 +52,7 @@ private:
    void parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_handlers);
    void try_handlers_(HandlerContext& ctx, std::vector<Handler*>& handlers);
    void describe_(std::ostream& os, bool verbose, const DescribeSection& section, const S& query = S()) const;
-   
+
    DescribeConfig describe_config_;
    std::vector<handler_ptr> handlers_;
    std::unordered_multimap<I32, Handler*> raw_positional_handlers_;

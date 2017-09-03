@@ -38,7 +38,7 @@ S escape_cli_arg(gsl::cstring_span<> arg) {
          val.push_back (*it);
       }
    }
-   
+
    val.push_back('\"');
 
    return val;

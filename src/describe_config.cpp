@@ -215,7 +215,7 @@ DescribeConfig default_describe_config(bool man_style_options) {
    } else {
       config.push_back({ ids::cli_describe_section_options_compact, "OPTIONS", compact_options_table_config() });
    }
-   
+
    config.push_back({ ids::cli_describe_section_summary, S(), default_table_config() });
    config.push_back({ ids::cli_describe_section_exitcodes, "EXIT STATUS CODES", exit_code_table_config() });
    config.push_back({ ids::cli_describe_section_examples, "EXAMPLES", examples_table_config() });

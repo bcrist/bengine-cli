@@ -16,7 +16,7 @@ auto numeric_param(std::initializer_list<S> short_options,
    auto func = [=, &dest](const S& str) {
       dest = util::parse_numeric_string<T>(str);
    };
-   
+
    ct::Cell extra;
    extra << "Default value: "
          << color::fg_cyan << be::t::ResizeInteger<T, 8>(dest) << color::reset;

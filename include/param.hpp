@@ -54,7 +54,7 @@ public:
       allow_option_as_value_ = enabled;
       return std::move(*this);
    }
-   
+
    Param<F>& ignore_extra_values(bool enabled) & {
       ignore_extra_values_ = enabled;
       return *this;

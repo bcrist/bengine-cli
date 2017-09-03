@@ -2,7 +2,7 @@
 
    'prologue','intro','synopsis','abstract','options:compact',{'OPTIONS_MANSTYLE','options:man-style'},
    'summary',{'EXITCODES','exit-codes'},'examples','conclusion','license','epilogue'
-   
+
 }) !! 80 */
 /* ################# !! GENERATED CODE -- DO NOT MODIFY !! ################# */
 #pragma once

@@ -10,7 +10,7 @@ namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
 class VerbosityParam final : public OptionHandlerBase<VerbosityParam> {
-public:   
+public:
    VerbosityParam(std::initializer_list<S> short_options, std::initializer_list<S> long_options, S value_name, U16* verbosity_mask)
       : OptionHandlerBase<VerbosityParam>(std::move(short_options), std::move(long_options)),
         value_name_(std::move(value_name)),

@@ -113,7 +113,7 @@ private:
    bool stop_;
    bool stop_after_phase_;
    bool increment_position_;
-   
+
    // option-specific state
    OptionParseResult option_info_;
    std::size_t current_option_;

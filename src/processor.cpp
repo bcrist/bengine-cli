@@ -38,7 +38,7 @@ Processor& Processor::operator()(handler_ptr handler) {
 
    Handler* h = handler.get();
    handlers_.push_back(std::move(handler));
-   
+
    for (std::size_t i = 0, n = h->raw_position_count(); i < n; ++i) {
       raw_positional_handlers_.insert(std::make_pair(h->raw_position(i), h));
    }
@@ -118,7 +118,7 @@ void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_hand
       get_handlers(raw_positional_handlers_.equal_range(-1), temp_handlers);
       try_handlers_(ctx, temp_handlers);
    }
-   
+
    if (ctx.after_phase_()) {
       return;
    }
@@ -126,7 +126,7 @@ void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_hand
    // option phase
    if (ctx.enable_option_handling()) {
       ctx.option_phase_(option_parser_(ctx.argument()));
-      
+
       std::unordered_multimap<S, Handler*>* map;
 
       if (ctx.option_info_.is_long_option) {
@@ -153,7 +153,7 @@ void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_hand
          return;
       }
    }
-   
+
    // positional phase
    ctx.positional_phase_();
 
