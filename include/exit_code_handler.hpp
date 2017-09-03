@@ -17,7 +17,7 @@ public:
       no_verbose_enabled_ = false;
    }
 
-   void describe(Id section, ct::Table& t, bool verbose, const S& query) const {
+   virtual void describe(Id section, ct::Table& t, bool verbose, const S& query) const override {
       if (section == ids::cli_describe_section_exitcodes && should_describe_(verbose, query)) {
          t << ct::row << exit_code_ << ct::cell << description_;
       }

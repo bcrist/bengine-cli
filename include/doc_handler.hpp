@@ -16,8 +16,8 @@ public:
       : section_(section),
         func_(std::move(func)) { }
 
-   void describe(Id section, ct::Table& t, bool verbose, const S& query) const {
-      if (section == section_ && should_describe_(verbose, query)) {
+   virtual void describe(Id section, ct::Table& t, bool verbose, const S& query) const override {
+      if (section == section_ && this->should_describe_(verbose, query)) {
          func_(t);
       }
    }

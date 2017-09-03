@@ -12,6 +12,16 @@ const Processor& HandlerContext::processor() const {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+bool HandlerContext::enable_option_handling() const {
+   return enable_options_;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void HandlerContext::enable_option_handling(bool enable_options) {
+   enable_options_ = enable_options;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 /// \brief  The handling phase during which the handler was called.
 HandlerContext::handling_phase HandlerContext::phase() const {
    return phase_;
@@ -230,6 +240,7 @@ const S& HandlerContext::consume_value_(std::size_t value_index, consumed_state 
 HandlerContext::HandlerContext(Processor& processor, const arg_sequence& args)
    : processor_(processor),
      args_(args),
+     enable_options_(true),
      raw_position_(0),
      position_(0),
      value_count_(0),
@@ -244,17 +255,7 @@ HandlerContext::HandlerContext(Processor& processor, const arg_sequence& args)
      increment_position_(false),
      current_option_(0)
 {
-   if (processor.context_) {
-      throw FatalTrace(std::make_error_code(std::errc::operation_in_progress), "Argument processing is already in progress!");
-   }
-
    arg_consumption_.resize(args_.size(), unconsumed);
-   processor.context_ = this;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-HandlerContext::~HandlerContext() {
-   processor_.context_ = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

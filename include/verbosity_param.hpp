@@ -20,7 +20,7 @@ public:
       return value_name_;
    }
 
-   void operator()(HandlerContext& ctx);
+   virtual void handle(HandlerContext& ctx) override;
 
 private:
    S value_name_;

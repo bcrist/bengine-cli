@@ -34,6 +34,9 @@ public:
 
    const Processor& processor() const;
 
+   bool enable_option_handling() const;
+   void enable_option_handling(bool enable_options);
+
    handling_phase phase() const;
 
    std::size_t raw_position() const;
@@ -72,7 +75,6 @@ private:
    const S& consume_value_(std::size_t value_index, consumed_state when);
 
    HandlerContext(Processor& processor, const arg_sequence& args);
-   ~HandlerContext();
 
    bool argument_(std::size_t raw_position);
 
@@ -88,11 +90,13 @@ private:
    bool after_phase_();
    void after_argument_();
 
+   // invocation-specific state
    Processor& processor_;
-
    const arg_sequence& args_;
    consumption_map arg_consumption_;
+   bool enable_options_;
 
+   // argument-specific state
    std::size_t raw_position_;
    std::size_t position_;
 

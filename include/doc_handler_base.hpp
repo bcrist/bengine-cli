@@ -57,7 +57,7 @@ public:
       return std::move(*static_cast<Derived*>(this));
    }
 
-   void operator()(HandlerContext&) { }
+   virtual void handle(HandlerContext&) override { }
 
 protected:
    bool should_describe_(bool verbose, const S& query) const {

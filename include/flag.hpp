@@ -39,8 +39,8 @@ public:
       return std::move(*this);
    }
 
-   void operator()(HandlerContext& ctx) {
-      if (enabled_ && !enabled_()) {
+   virtual void handle(HandlerContext& ctx) override {
+      if (this->enabled_ && !this->enabled_()) {
          return;
       }
 
@@ -50,7 +50,7 @@ public:
          }
 
          if (!ignore_values_) {
-            if (throw_on_error_) {
+            if (this->throw_on_error_) {
                throw OptionError(ctx, "Option cannot take a value!");
             } else {
                be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': cannot take a value!" | default_log();

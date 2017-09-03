@@ -7,7 +7,7 @@
 
 namespace be::cli {
 
-void VerbosityParam::operator()(HandlerContext& ctx) {
+void VerbosityParam::handle(HandlerContext& ctx) {
    if (enabled_ && !enabled_()) {
       return;
    }

@@ -101,7 +101,7 @@ public:
       return std::move(*static_cast<Derived*>(this));
    }
 
-   void describe(Id section, ct::Table& t, bool verbose, const S& query) const {
+   virtual void describe(Id section, ct::Table& t, bool verbose, const S& query) const override {
       using namespace ct;
 
       if (section != ids::cli_describe_section_options_compact &&
@@ -221,20 +221,20 @@ public:
       return false;
    }
 
-   std::size_t short_option_count() const {
+   virtual std::size_t short_option_count() const noexcept override {
       return short_options_.size();
    }
 
-   S short_option(std::size_t index) const {
+   virtual S short_option(std::size_t index) const noexcept override {
       assert(short_option_count() > index);
       return short_options_[index];
    }
 
-   std::size_t long_option_count() const {
+   virtual std::size_t long_option_count() const noexcept override {
       return long_options_.size();
    }
 
-   S long_option(std::size_t index) const {
+   virtual S long_option(std::size_t index) const noexcept override {
       assert(long_option_count() > index);
       return long_options_[index];
    }

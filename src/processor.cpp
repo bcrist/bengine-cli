@@ -15,7 +15,6 @@ void get_handlers(std::pair<I, I> range, std::vector<Handler*>& dest) {
    for (auto it = range.first, end = range.second; it != end; ++it) {
       dest.push_back(it->second);
    }
-   std::sort(dest.begin(), dest.end());
 }
 
 } // be::cli::()
@@ -23,69 +22,64 @@ void get_handlers(std::pair<I, I> range, std::vector<Handler*>& dest) {
 ///////////////////////////////////////////////////////////////////////////////
 Processor::Processor()
    : describe_config_(default_describe_config(console_width(std::cout) < 80)),
-     option_parser_(default_option_parser),
-     maps_valid_(false),
-     enable_options_(true),
-     verbose_describe_(false),
-     context_(nullptr)
+     option_parser_(default_option_parser)
 { }
 
 ///////////////////////////////////////////////////////////////////////////////
-Processor& Processor::operator()(DescribeConfig config) {
-   describe_config_ = std::move(config);
-   return *this;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-Processor& Processor::operator()(option_parser parser) {
+void Processor::use_option_parser(option_parser parser) {
    option_parser_ = std::move(parser);
-   return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Processor& Processor::operator()(Handler handler) {
+Processor& Processor::operator()(handler_ptr handler) {
+   if (!handler) {
+      return *this;
+   }
+
+   Handler* h = handler.get();
    handlers_.push_back(std::move(handler));
-   maps_valid_ = false;
+   
+   for (std::size_t i = 0, n = h->raw_position_count(); i < n; ++i) {
+      raw_positional_handlers_.insert(std::make_pair(h->raw_position(i), h));
+   }
+
+   if (h->handles_generic_options()) {
+      generic_option_handlers_.push_back(h);
+   }
+
+   for (std::size_t i = 0, n = h->short_option_count(); i < n; ++i) {
+      short_option_handlers_.insert(std::make_pair(h->short_option(i), h));
+   }
+
+   for (std::size_t i = 0, n = h->long_option_count(); i < n; ++i) {
+      long_option_handlers_.insert(std::make_pair(h->long_option(i), h));
+   }
+
+   for (std::size_t i = 0, n = h->position_count(); i < n; ++i) {
+      positional_handlers_.insert(std::make_pair(h->position(i), h));
+   }
+
    return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool Processor::options() const {
-   return enable_options_;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Processor::options(bool enable_options) const {
-   enable_options_ = enable_options;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-bool Processor::verbose() const {
-   return verbose_describe_;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Processor::verbose(bool enable_verbose_describe) const {
-   verbose_describe_ = enable_verbose_describe;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Processor::operator()(int argc, char** argv) {
+void Processor::process(int argc, char** argv) {
    arg_sequence args;
    args.reserve(argc);
+
+   // TODO detect if first arg is program name?
+
    for (int i = 1; i < argc; ++i) { // skip first argv (program name)
       args.push_back(argv[i]);
    }
-   (*this)(args);
+
+   process(args);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Processor::operator()(const arg_sequence& args) {   
-   validate_maps_();
-
+void Processor::process(const arg_sequence& args) {
    std::vector<Handler*> temp_handlers;
    HandlerContext ctx(*this, args);
-   
    for (std::size_t raw = 0; raw < args.size(); ++raw) {
       if (ctx.argument_(raw)) {
          parse_arg_(ctx, temp_handlers);
@@ -95,40 +89,34 @@ void Processor::operator()(const arg_sequence& args) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Processor::describe(std::ostream& os, Id section) const {
+void Processor::describe(std::ostream& os, bool verbose, Id section) const {
    for (auto& s : describe_config_) {
       if (s.id == section) {
-         describe_(os, s);
+         describe_(os, verbose, s);
       }
    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Processor::describe(std::ostream& os, const S& query) const {
+void Processor::describe(std::ostream& os, bool verbose, const S& query) const {
    for (auto& section : describe_config_) {
-      describe_(os, section, query);
+      describe_(os, verbose, section, query);
    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-const HandlerContext& Processor::context() const {
-   return *context_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /// \return true if this argument should cause the argument position to be incremented
 void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_handlers) {
-
    // raw phase
    ctx.raw_phase_();
 
    // check specialized raw positional handlers
    get_handlers(raw_positional_handlers_.equal_range((I32)ctx.raw_position()), temp_handlers);
-   try_handlers_(temp_handlers, ctx);
+   try_handlers_(ctx, temp_handlers);
    if (!ctx.stop_) {
       // check generic raw positional handlers
       get_handlers(raw_positional_handlers_.equal_range(-1), temp_handlers);
-      try_handlers_(temp_handlers, ctx);
+      try_handlers_(ctx, temp_handlers);
    }
    
    if (ctx.after_phase_()) {
@@ -136,7 +124,7 @@ void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_hand
    }
 
    // option phase
-   if (enable_options_) {
+   if (ctx.enable_option_handling()) {
       ctx.option_phase_(option_parser_(ctx.argument()));
       
       std::unordered_multimap<S, Handler*>* map;
@@ -152,10 +140,10 @@ void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_hand
 
          // check specialized option handlers
          get_handlers(map->equal_range(ctx.option()), temp_handlers);
-         try_handlers_(temp_handlers, ctx);
+         try_handlers_(ctx, temp_handlers);
          if (!ctx.stop_) {
             // check generic option handlers
-            try_handlers_(generic_option_handlers_, ctx);
+            try_handlers_(ctx, generic_option_handlers_);
          }
 
          ctx.after_option_();
@@ -171,20 +159,20 @@ void Processor::parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_hand
 
    // check specialized positional handlers
    get_handlers(positional_handlers_.equal_range((I32)ctx.position()), temp_handlers);
-   try_handlers_(temp_handlers, ctx);
+   try_handlers_(ctx, temp_handlers);
    if (!ctx.stop_) {
       // check generic positional handlers
       get_handlers(positional_handlers_.equal_range(-1), temp_handlers);
-      try_handlers_(temp_handlers, ctx);
+      try_handlers_(ctx, temp_handlers);
    }
 
    ctx.after_phase_();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Processor::try_handlers_(std::vector<Handler*>& handlers, HandlerContext& ctx) {
+void Processor::try_handlers_(HandlerContext& ctx, std::vector<Handler*>& handlers) {
    for (Handler* handler : handlers) {
-      (*handler)(ctx);
+      handler->handle(ctx);
       ctx.after_handler_();
       if (ctx.stop_) {
          return;
@@ -193,46 +181,16 @@ void Processor::try_handlers_(std::vector<Handler*>& handlers, HandlerContext& c
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Processor::validate_maps_() {
-   if (!maps_valid_) {
-      raw_positional_handlers_.clear();
-      generic_option_handlers_.clear();
-      short_option_handlers_.clear();
-      long_option_handlers_.clear();
-      positional_handlers_.clear();
-
-      for (Handler& handler : handlers_) {
-         for (std::size_t i = 0, n = handler.raw_position_count(); i < n; ++i) {
-            raw_positional_handlers_.insert(std::make_pair(handler.raw_position(i), &handler));
-         }
-         
-         if (handler.generic_option_handler()) {
-            generic_option_handlers_.push_back(&handler);
-         }
-
-         for (std::size_t i = 0, n = handler.short_option_count(); i < n; ++i) {
-            short_option_handlers_.insert(std::make_pair(handler.short_option(i), &handler));
-         }
-
-         for (std::size_t i = 0, n = handler.long_option_count(); i < n; ++i) {
-            long_option_handlers_.insert(std::make_pair(handler.long_option(i), &handler));
-         }
-
-         for (std::size_t i = 0, n = handler.position_count(); i < n; ++i) {
-            positional_handlers_.insert(std::make_pair(handler.position(i), &handler));
-         }
-      }
-      
-      maps_valid_ = true;
-   }
+void Processor::configure_describe(DescribeConfig config) {
+   describe_config_ = std::move(config);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Processor::describe_(std::ostream& os, const DescribeSection& section, const S& query) const {
+void Processor::describe_(std::ostream& os, bool verbose, const DescribeSection& section, const S& query) const {
    ct::Table table(section.config);
 
    for (auto& handler : handlers_) {
-      handler.describe(section.id, table, verbose_describe_, query);
+      handler->describe(section.id, table, verbose, query);
    }
 
    if (!table.empty()) {
@@ -245,7 +203,7 @@ void Processor::describe_(std::ostream& os, const DescribeSection& section, cons
 
 ///////////////////////////////////////////////////////////////////////////////
 std::ostream& operator<<(std::ostream& os, const Processor& proc) {
-   proc.describe(os);
+   proc.describe(os, false);
    return os;
 }
 

@@ -15,7 +15,7 @@ public:
    EndOfOptionsFlag(std::initializer_list<S> short_options, std::initializer_list<S> long_options)
       : OptionHandlerBase<EndOfOptionsFlag>(std::move(short_options), std::move(long_options)) { }
 
-   void operator()(HandlerContext& ctx) {
+   virtual void handle(HandlerContext& ctx) override {
       if (enabled_ && !enabled_()) {
          return;
       }
@@ -29,7 +29,7 @@ public:
             return;
          }
       }
-      ctx.processor().options(false);
+      ctx.enable_option_handling(false);
       ctx.handled(true);
       ctx.stop_after_phase(true);
    }

@@ -73,8 +73,8 @@ public:
       return allow_default_value_;
    }
 
-   void operator()(HandlerContext& ctx) {
-      if (enabled_ && !enabled_()) {
+   virtual void handle(HandlerContext& ctx) override {
+      if (this->enabled_ && !this->enabled_()) {
          return;
       }
 
@@ -84,12 +84,12 @@ public:
          }
 
          if (!allow_default_value_) {
-            if (throw_on_error_) {
+            if (this->throw_on_error_) {
                throw OptionError(ctx, "Option must have a value!");
             } else {
                be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': must specify a value!" | default_log();
             }
-         } else if (throw_on_error_) {
+         } else if (this->throw_on_error_) {
             try {
                func_(default_value_);
             } catch (const std::runtime_error& e) {
@@ -99,13 +99,13 @@ public:
             func_(default_value_);
          }
       } else if (ctx.option_value_count() > 1 && !ignore_extra_values_) {
-         if (throw_on_error_) {
+         if (this->throw_on_error_) {
             throw OptionError(ctx, "Option can't take multiple values!");
          } else {
             be_short_warn() << "Ignoring option '" << S(ctx.option()) << "': cannot take multiple values!" | default_log();
          }
       } else {
-         if (throw_on_error_) {
+         if (this->throw_on_error_) {
             try {
                func_(ctx.consume_value_after_phase(0));
             } catch (const std::runtime_error& e) {

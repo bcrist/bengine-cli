@@ -12,7 +12,7 @@ namespace detail {
 template <typename T>
 util::KeywordParser<T> create_enum_parser() {
    util::KeywordParser<T> parser;
-   auto values = EnumTraits<T>::values<>();
+   auto values = EnumTraits<T>::values();
    for (T value : values) {
       parser(value, EnumTraits<T>::name(value));
    }
@@ -58,7 +58,7 @@ auto enum_param(std::initializer_list<S> short_options,
    extra << "Valid values: ";
 
    bool first = true;
-   auto values = EnumTraits<T>::values<>();
+   auto values = EnumTraits<T>::values();
    for (T value : values) {
       if (!is_valid(value)) {
          continue;
@@ -108,7 +108,7 @@ auto enum_param(std::initializer_list<S> short_options,
    extra << "Valid values: ";
 
    bool first = true;
-   auto values = EnumTraits<T>::values<>();
+   auto values = EnumTraits<T>::values();
    for (T value : values) {
       if (!is_valid(value)) {
          continue;
@@ -158,7 +158,7 @@ auto enum_param(std::initializer_list<S> short_options,
    extra << "Valid values: ";
 
    bool first = true;
-   auto values = EnumTraits<T>::values<>();
+   auto values = EnumTraits<T>::values();
    for (T value : values) {
       if (!is_valid(value)) {
          continue;

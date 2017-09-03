@@ -47,23 +47,24 @@ public:
       return std::move(*this);
    }
 
-   std::size_t raw_position_count() const {
+   virtual std::size_t raw_position_count() const noexcept override {
       return raw_positions_.size();
    }
-   I32 raw_position(std::size_t index) const {
+
+   virtual I32 raw_position(std::size_t index) const noexcept override {
       assert(raw_position_count() > index);
       return raw_positions_[index];
    }
 
-   std::size_t position_count() const {
+   virtual std::size_t position_count() const noexcept override {
       return positions_.size();
    }
-   I32 position(std::size_t index) const {
+   virtual I32 position(std::size_t index) const noexcept override {
       assert(position_count() > index);
       return positions_[index];
    }
 
-   void operator()(HandlerContext& ctx) {
+   virtual void handle(HandlerContext& ctx) override {
       if (enabled_ && !enabled_()) {
          return;
       }

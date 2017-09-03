@@ -18,54 +18,49 @@ class Processor final {
 public:
    using arg_sequence = HandlerContext::arg_sequence;
    using option_parser = std::function<OptionParseResult(const S&)>;
+   using handler_ptr = std::unique_ptr<Handler>;
 
    Processor();
 
-   Processor& operator()(DescribeConfig config);
-   Processor& operator()(option_parser parser);
-   Processor& operator()(Handler handler);
+   void use_option_parser(option_parser parser);
+   
+   Processor& operator()(handler_ptr handler);
 
-   bool options() const;
-   void options(bool enable_options) const;
+   template <typename H>
+   Processor& operator()(H&& handler) {
+      return (*this)(std::unique_ptr<Handler>(new H(std::move(handler))));
+   }
 
-   bool verbose() const;
-   void verbose(bool enable_verbose_describe) const;
+   void process(int argc, char** argv);
+   void process(const arg_sequence& args);
 
-   void operator()(int argc, char** argv);
-   void operator()(const arg_sequence& args);
+   void configure_describe(DescribeConfig config);
 
-   void describe(std::ostream& os, Id section) const;
-   void describe(std::ostream& os, const S& query = S()) const;
+   void describe(std::ostream& os, bool verbose, Id section) const;
+   void describe(std::ostream& os, bool verbose, const S& query = S()) const;
    
    template <typename SectionPred>
-   void describe(std::ostream& os, SectionPred pred) const {
+   void describe(std::ostream& os, bool verbose, SectionPred pred) const {
       for (auto& section : describe_config_) {
          if (pred(section.id)) {
-            describe_(os, section);
+            describe_(os, verbose, section);
          }
       }
    }
 
-   const HandlerContext& context() const;
-
 private:
    void parse_arg_(HandlerContext& ctx, std::vector<Handler*>& temp_handlers);
-   void try_handlers_(std::vector<Handler*>& handlers, HandlerContext& ctx);
-   void validate_maps_();
-   void describe_(std::ostream& os, const DescribeSection& section, const S& query = S()) const;
+   void try_handlers_(HandlerContext& ctx, std::vector<Handler*>& handlers);
+   void describe_(std::ostream& os, bool verbose, const DescribeSection& section, const S& query = S()) const;
    
    DescribeConfig describe_config_;
-   std::vector<Handler> handlers_;
+   std::vector<handler_ptr> handlers_;
    std::unordered_multimap<I32, Handler*> raw_positional_handlers_;
    option_parser option_parser_;
    std::vector<Handler*> generic_option_handlers_;
    std::unordered_multimap<S, Handler*> short_option_handlers_;
    std::unordered_multimap<S, Handler*> long_option_handlers_;
    std::unordered_multimap<I32, Handler*> positional_handlers_;
-   bool maps_valid_;
-   mutable bool enable_options_;
-   mutable bool verbose_describe_;
-   HandlerContext* context_;
 };
 
 std::ostream& operator<<(std::ostream& os, const Processor& proc);
