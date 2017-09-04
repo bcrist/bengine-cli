@@ -5,7 +5,7 @@
 namespace be::cli {
 
 ///////////////////////////////////////////////////////////////////////////////
-void log_exception(const OptionError& e, Log& log, v::Verbosity verbosity, const char* source) {
+void log_exception(const OptionError& e, v::Verbosity verbosity, Log& log, const char* source) {
    be_log(verbosity, source) << S(e.what())
       & attr(ids::log_attr_index) << e.raw_position()
       & attr(ids::log_attr_argument) << S(e.argument())
@@ -14,7 +14,7 @@ void log_exception(const OptionError& e, Log& log, v::Verbosity verbosity, const
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void log_exception(const ArgumentError& e, Log& log, v::Verbosity verbosity, const char* source) {
+void log_exception(const ArgumentError& e, v::Verbosity verbosity, Log& log, const char* source) {
    be_log(verbosity, source) << S(e.what())
       & attr(ids::log_attr_index) << e.raw_position()
       & attr(ids::log_attr_argument) << S(e.argument())
