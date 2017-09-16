@@ -78,7 +78,7 @@ public:
             ctx.stop_after_phase(true);
          }
       } catch (const std::runtime_error& e) {
-         throw OptionError(ctx, e.what());
+         throw ArgumentError(ctx, e.what());
       }
    }
 
