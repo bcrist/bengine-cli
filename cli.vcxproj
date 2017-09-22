@@ -56,7 +56,6 @@
   <ItemGroup>
     <ClInclude Include="include\app_name.hpp" />
     <ClInclude Include="include\cli.hpp" />
-    <ClInclude Include="include\cli_autolink.hpp" />
     <ClInclude Include="include\default_option_parser.hpp" />
     <ClInclude Include="include\describe_config.hpp" />
     <ClInclude Include="include\doc_handler.hpp" />

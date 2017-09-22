@@ -29,9 +29,6 @@
     <ClInclude Include="include\cli.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\cli_autolink.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\escape_cli_arg.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

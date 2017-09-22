@@ -2,7 +2,6 @@
 #ifndef BE_CLI_OPTION_PARSE_RESULT_HPP_
 #define BE_CLI_OPTION_PARSE_RESULT_HPP_
 
-#include "cli_autolink.hpp"
 #include <be/core/be.hpp>
 #include <vector>
 
