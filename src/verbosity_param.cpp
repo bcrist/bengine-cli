@@ -56,7 +56,7 @@ void VerbosityParam::handle(HandlerContext& ctx) {
       U16 new_value = 0;
       for (auto begin = value.begin(), end = value.end(), i = begin; begin != end; begin = i) {
          i = std::find(begin, end, '|');
-         gsl::cstring_span<> span(&(*begin), i - begin);
+         SV span(&*begin, i - begin);
 
          std::error_code ec;
          auto result = parser.parse(span, ec);
@@ -65,9 +65,9 @@ void VerbosityParam::handle(HandlerContext& ctx) {
             result = util::parse_numeric_string<U16>(value, ec);
             if (ec) {
                if (throw_on_error_) {
-                  throw OptionError(ctx, "Couldn't parse verbosity mask value: " + to_string(span));
+                  throw OptionError(ctx, "Couldn't parse verbosity mask value: " + S(span));
                } else {
-                  be_short_warn() << "Ignoring unrecognized or out-of-range verbosity mask value: '" + to_string(span) + "'" | default_log();
+                  be_short_warn() << "Ignoring unrecognized or out-of-range verbosity mask value: '" + S(span) + "'" | default_log();
                }
             }
          }

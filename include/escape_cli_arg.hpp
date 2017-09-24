@@ -6,7 +6,7 @@
 
 namespace be::cli {
 
-S escape_cli_arg(gsl::cstring_span<> arg); // Native implementation
+S escape_cli_arg(SV arg); // Native implementation
 
 } // be::cli
 

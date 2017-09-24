@@ -116,9 +116,9 @@ public:
       if (!query.empty()) {
          bool cancel = true;
          if (query[0] == '-') {
-            auto q = gsl::cstring_span<>(query).subspan(1);
+            auto q = SV(query).substr(1);
             if (!q.empty() && q[0] == '-') {
-               q = q.subspan(1);
+               q = q.substr(1);
                for (const S& name : long_options_) {
                   if (std::equal(name.begin(), name.end(), q.begin(), q.end())) { // bug in GSL prevents operator== ADL from working correctly here
                      cancel = false;

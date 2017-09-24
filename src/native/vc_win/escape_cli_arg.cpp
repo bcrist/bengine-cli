@@ -5,14 +5,14 @@
 
 namespace be::cli {
 
-S escape_cli_arg(gsl::cstring_span<> arg) {
+S escape_cli_arg(SV arg) {
    if (arg.empty()) {
       return "\"\"";
    }
 
    auto it = std::find_if(arg.begin(), arg.end(), [](char c) { return c == ' ' || c == '\t' || c == '\n' || c == '\v'; });
    if (it == arg.end()) {
-      return S(arg.begin(), arg.end());
+      return S(arg);
    }
 
    S val;
