@@ -3,6 +3,7 @@
 #define BE_CLI_PARAM_HPP_
 
 #include "option_handler_base.hpp"
+#include "option_error.hpp"
 #include <be/core/exceptions.hpp>
 #include <be/core/logging.hpp>
 #include <functional>
